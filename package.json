@@ -6,10 +6,12 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "import": "./dist/main.mjs",
       "require": "./dist/main.js"
     },
     "./register": {
-      "require": "./dist/main.js"
+      "import": "./dist/register.mjs",
+      "require": "./dist/register.js"
     }
   },
   "files": [
