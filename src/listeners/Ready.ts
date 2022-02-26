@@ -1,20 +1,9 @@
 /* eslint-disable max-classes-per-file */
-import type { ApplicationCommandData, ApplicationCommandManager, ApplicationCommandPermissionData, BaseApplicationCommandData, ChatInputApplicationCommandData, CommandInteraction, GuildApplicationCommandManager, GuildApplicationCommandPermissionData, MessageApplicationCommandData, MessageInteraction, UserApplicationCommandData, UserContextMenuInteraction } from 'discord.js'
+import type { ApplicationCommandData, ApplicationCommandManager, GuildApplicationCommandManager, GuildApplicationCommandPermissionData } from 'discord.js'
 import { Events, Listener } from '@sapphire/framework'
 import { ApplicationCommand } from '../lib'
 import { ApplyOptions } from '@sapphire/decorators'
 import type { ListenerOptions } from '@sapphire/framework'
-
-type NoType<T> = Omit<T, 'type'>
-
-interface ApplicationCommandAdditionalData {
-	guildIds?: string[]
-	idHints?: string[]
-}
-
-type ApplicationCommandOptions<T extends BaseApplicationCommandData> = NoType<T> & ApplicationCommandAdditionalData & {
-	permissions?: ApplicationCommandPermissionData[]
-}
 
 @ApplyOptions<ListenerOptions>( {
 	event: Events.ClientReady,
@@ -159,25 +148,5 @@ export class UserEvent extends Listener {
 		}
 
 		await manager.permissions.set( { fullPermissions } )
-	}
-}
-
-declare module '@sapphire/framework' {
-	class Command {
-		public chatInputApplicationRun?( interaction: CommandInteraction ): void | Promise<void>
-		public messageApplicationRun?( interaction: MessageInteraction ): void | Promise<void>
-		public userApplicationRun?( interaction: UserContextMenuInteraction ): void | Promise<void>
-	}
-
-	interface CommandOptions {
-		chatInputApplicationOptions?: ApplicationCommandOptions<ChatInputApplicationCommandData>
-		messageApplicationOptions?: ApplicationCommandOptions<MessageApplicationCommandData>
-		userApplicationOptions?: ApplicationCommandOptions<UserApplicationCommandData>
-	}
-}
-
-declare module '@sapphire/pieces' {
-	interface Container {
-		applicationCommands: Map<string, ApplicationCommand>
 	}
 }

@@ -1,3 +1,4 @@
+import './main'
 import { container, Plugin, postInitialization, SapphireClient } from '@sapphire/framework'
 import path from 'path'
 
