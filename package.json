@@ -4,7 +4,14 @@
   "main": "dist/main.js",
   "author": "bitomic",
   "license": "MIT",
-  "private": true,
+  "exports": {
+    ".": {
+      "require": "./dist/main.js"
+    },
+    "./register": {
+      "require": "./dist/main.js"
+    }
+  },
   "scripts": {
     "hooks": "husky install .github/husky",
     "build": "rimraf tsconfig.tsbuildinfo dist && yarn tsc --listEmittedFiles --incremental",
