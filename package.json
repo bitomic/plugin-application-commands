@@ -1,6 +1,6 @@
 {
   "name": "@bitomic/plugin-application-commands",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "main": "./dist/main.js",
   "module": "./dist/main.mjs",
   "types": "./dist/main.d.ts",
