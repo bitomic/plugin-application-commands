@@ -4,7 +4,7 @@ import path from 'path'
 
 export class ApplicationCommandsPlugin extends Plugin {
 	public static [ postInitialization ](): void {
-		container.stores.get( 'listeners' ).registerPath( path.resolve( __dirname, './listeners' ) )
+		container.stores.get( 'listeners' ).registerPath( path.join( __dirname, 'listeners' ) )
 	}
 }
 
