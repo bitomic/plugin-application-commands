@@ -23,6 +23,9 @@
     "hooks": "husky install .github/husky",
     "build": "rimraf tsconfig.tsbuildinfo dist && yarn tsc --listEmittedFiles --incremental",
     "build:watch": "yarn tsc -w --incremental",
+    "esm:all": "esm:default && esm:register",
+		"esm:default": "gen-esm-wrapper dist/main.js dist/main.mjs",
+		"esm:register": "gen-esm-wrapper dist/register.js dist/register.mjs",
     "lint": "eslint src/ --ext .ts --cache",
     "lint:fix": "eslint src/ --fix --ext .ts --cache",
     "start": "yarn node dist/main.js"
@@ -42,10 +45,10 @@
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
     "eslint": "^8.10.0",
+    "gen-esm-wrapper": "^1.1.3",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.4",
     "rimraf": "^3.0.2",
-    "tsup": "^5.11.13",
     "typescript": "^4.5.5"
   }
 }
