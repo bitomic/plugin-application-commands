@@ -23,7 +23,7 @@
     "hooks": "husky install .github/husky",
     "build": "rimraf tsconfig.tsbuildinfo dist && yarn tsc --listEmittedFiles --incremental",
     "build:watch": "yarn tsc -w --incremental",
-    "esm:all": "esm:default && esm:register",
+    "esm:all": "yarn esm:default && yarn esm:register",
 		"esm:default": "gen-esm-wrapper dist/main.js dist/main.mjs",
 		"esm:register": "gen-esm-wrapper dist/register.js dist/register.mjs",
     "lint": "eslint src/ --ext .ts --cache",
