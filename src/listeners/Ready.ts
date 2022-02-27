@@ -14,7 +14,7 @@ export class UserEvent extends Listener {
 	public async run(): Promise<void> {
 		this.container.applicationCommands = new Map()
 
-		const [ applicationCommandsList, guildIds ] = this.getLists()
+		const [ applicationCommandsList, guildIds ] = await this.getLists()
 
 		const [ globalCommandList, guildCommandList ] = this.filterCommandList( applicationCommandsList )
 
@@ -37,14 +37,14 @@ export class UserEvent extends Listener {
 		return [ globalList, guildList ]
 	}
 
-	protected getLists(): [ ApplicationCommand[], Set<string> ] {
+	protected async getLists(): Promise<[ ApplicationCommand[], Set<string> ]> {
 		const list: ApplicationCommand[] = []
 		const guilds = new Set<string>()
 		const commands = this.container.stores.get( 'commands' )
 
 		for ( const [ , command ] of commands ) {
 			if ( !command.options.chatInputApplicationOptions && !command.options.messageApplicationOptions && !command.options.userApplicationOptions ) continue
-			const applicationCommand = new ApplicationCommand( {
+			const applicationCommand = await ApplicationCommand.create( {
 				command
 			} )
 			list.push( applicationCommand )

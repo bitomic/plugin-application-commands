@@ -1,5 +1,6 @@
 import type { ApplicationCommandData, ApplicationCommandPermissionData, ChatInputApplicationCommandData, MessageApplicationCommandData, UserApplicationCommandData } from 'discord.js'
 import type { Command } from '@sapphire/framework'
+import { container } from '@sapphire/framework'
 
 const types = [ 'chatInput', 'message', 'user' ] as const
 
@@ -10,15 +11,53 @@ export class ApplicationCommand {
 	public messageApplicationIdHints: Set<string> | null = null
 	public userApplicationIdHints: Set<string> | null = null
 
-	public constructor( options: ApplicationCommandOptions ) {
+	private constructor( options: ApplicationCommandOptions ) {
 		this.command = options.command
 
+		if ( this.command.options.chatInputApplicationOptions ) {
+			this.command.options.chatInputApplicationOptions.description ??= this.command.description
+		}
+
 		for ( const type of types ) {
-			const idHints = this.command.options[ `${ type }ApplicationOptions` ]?.idHints
+			// Set some defaults
+			const options = this.command.options[ `${ type }ApplicationOptions` ]
+			if ( !options ) continue
+
+			options.name ??= this.command.name
+
+			// Store id hints
+			const { idHints } = options
 			if ( idHints && idHints.length > 0 ) {
 				const set = new Set<string>()
 				idHints.forEach( id => set.add( id ) )
 				this[ `${ type }ApplicationIdHints` ] = set
+			}
+		}
+	}
+
+	public static async create( options: ApplicationCommandOptions ): Promise<ApplicationCommand> {
+		const instance = new ApplicationCommand( options )
+		await instance.fillHints()
+		return instance
+	}
+
+	protected async fillHints(): Promise<void> {
+		const clientOptions = container.client.options
+		const hintProvider = clientOptions.applicationCommandsHintProvider
+		if ( !hintProvider ) return
+
+		for ( const type of types ) {
+			const hints = await hintProvider( this.command.name, type )
+			if ( !hints ) continue
+			const options = this.command.options[ `${ type }ApplicationOptions` ]
+			if ( !options ) continue
+			if ( hints.guildIds ) {
+				options.guildIds ??= []
+				options.guildIds.push( ...hints.guildIds )
+			}
+			if ( hints.idHints ) {
+				options.idHints ??= []
+				options.idHints.push( ...hints.idHints )
 			}
 		}
 	}
@@ -68,6 +107,15 @@ export class ApplicationCommand {
 	public get chatInputApplicationData(): ChatInputApplicationCommandData | null {
 		const options = this.command.options.chatInputApplicationOptions
 		if ( !options ) return null
+		if ( !options.description ) {
+			container.logger.error( 'Missing required property "description"' )
+			return null
+		}
+		if ( !options.name ) {
+			container.logger.error( 'Missing required property "name"' )
+			return null
+		}
+
 		return {
 			defaultPermission: options.defaultPermission ?? true,
 			description: options.description,
@@ -80,6 +128,10 @@ export class ApplicationCommand {
 	public get messageApplicationData(): MessageApplicationCommandData | null {
 		const options = this.command.options.messageApplicationOptions
 		if ( !options ) return null
+		if ( !options.name ) {
+			container.logger.error( 'Missing required property "name"' )
+			return null
+		}
 		return {
 			defaultPermission: options.defaultPermission ?? true,
 			name: options.name,
@@ -90,6 +142,10 @@ export class ApplicationCommand {
 	public get userApplicationData(): UserApplicationCommandData | null {
 		const options = this.command.options.userApplicationOptions
 		if ( !options ) return null
+		if ( !options.name ) {
+			container.logger.error( 'Missing required property "name"' )
+			return null
+		}
 		return {
 			defaultPermission: options.defaultPermission ?? true,
 			name: options.name,
