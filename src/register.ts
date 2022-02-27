@@ -1,4 +1,3 @@
-import './main'
 import { container, Plugin, postInitialization, SapphireClient } from '@sapphire/framework'
 import path from 'path'
 
@@ -12,3 +11,5 @@ SapphireClient.plugins.registerPostInitializationHook(
 	ApplicationCommandsPlugin[ postInitialization ],
 	'ApplicationCommands-PostInitialization'
 )
+
+export * from './main'
