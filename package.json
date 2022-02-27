@@ -1,6 +1,6 @@
 {
   "name": "@bitomic/plugin-application-commands",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "types": "./dist/main.d.ts",
   "author": "bitomic",
   "license": "MIT",
