@@ -50,7 +50,7 @@ export class UserEvent extends Listener {
 
 		emitter.emit( events.preRun, payload )
 		try {
-			await handler( interaction as any ) // eslint-disable-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
+			await handler.bind( applicationCommand.command )( interaction as any ) // eslint-disable-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
 			emitter.emit( events.success, payload )
 		} catch {
 			emitter.emit( events.error, payload )
