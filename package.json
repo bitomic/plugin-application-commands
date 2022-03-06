@@ -33,7 +33,7 @@
   },
   "packageManager": "yarn@3.2.0",
   "dependencies": {
-    "@sapphire/decorators": "4.2.6",
+    "@sapphire/decorators": "4.3.0",
     "@sapphire/pieces": "3.2.0"
   },
   "devDependencies": {
