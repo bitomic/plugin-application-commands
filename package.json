@@ -34,7 +34,7 @@
   "packageManager": "yarn@3.2.0",
   "dependencies": {
     "@sapphire/decorators": "4.3.0",
-    "@sapphire/pieces": "3.2.0"
+    "@sapphire/pieces": "3.3.0"
   },
   "devDependencies": {
     "@bitomic/eslint-config": "^1.0.0",
