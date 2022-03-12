@@ -33,14 +33,14 @@
   },
   "packageManager": "yarn@3.2.0",
   "dependencies": {
-    "@sapphire/decorators": "4.3.1",
-    "@sapphire/pieces": "3.2.0"
+    "@sapphire/decorators": "4.3.1"
   },
   "devDependencies": {
     "@bitomic/eslint-config": "^1.0.0",
     "@commitlint/cli": "^16.2.1",
     "@commitlint/config-conventional": "^16.2.1",
     "@sapphire/framework": "^2.4.1",
+    "@sapphire/pieces": "3.2.0",
     "@types/node": "^16.11.26",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.13.0",
@@ -54,6 +54,7 @@
   },
   "peerDependencies": {
     "@sapphire/framework": "*",
+    "@sapphire/pieces": "*",
     "discord.js": "*"
   }
 }

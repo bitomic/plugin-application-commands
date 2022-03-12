@@ -61,6 +61,7 @@ __metadata:
     typescript: ^4.6.2
   peerDependencies:
     "@sapphire/framework": "*"
+    "@sapphire/pieces": "*"
     discord.js: "*"
   languageName: unknown
   linkType: soft
